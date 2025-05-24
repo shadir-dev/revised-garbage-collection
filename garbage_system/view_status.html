@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Your Request</title>
+  <link href="status.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav>
+    Track Your Request
+  </nav>
+  <nav>
+    <div>
+      <ul>
+        <li class="nav-item"><a class="nav-link" href="user_index.php">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="request_form.html">Request Pickup</a></li>
+        <li class="nav-item"><a class="nav-link" href="view_status.html">View Status</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="track-container">
+    <label for="requestInput">Enter Request Email or ID:</label>
+    <input type="text" id="requestInput" name="enter_request_email" placeholder="e.g., user@example.com or #REQ12345" />
+    <button onclick="trackStatus()">Track Status</button>
+
+    <div class="result" id="resultSection" style="display:none;">
+      <p><strong>Status:</strong> <span id="status"></span></p>
+      <p><strong>Truck Assigned:</strong> <span id="truck"></span></p>
+      <p><strong>Assigned At:</strong> <span id="assigned_at"></span></p>
+      <p><strong>Completed For:</strong> <span id="completed_for"></span></p>
+      <p><strong>Location:</strong> <span id="location"></span></p>
+      <p><strong>Completed At:</strong> <span id="completed_at"></span></p>
+    </div>
+  </div>
+
+  <script>
+    async function trackStatus() {
+      const input = document.getElementById("requestInput").value.trim();
+      if (input === "") {
+        alert("Please enter your Request ID or Email.");
+        return;
+      }
+  
+      try {
+        const response = await fetch("view_status.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: "query=" + encodeURIComponent(input)
+        });
+  
+        const data = await response.json();
+        console.log("Response from PHP:", data);
+  
+        document.getElementById("resultSection").style.display = "block";
+  
+        if (data.status === "not_found") {
+          document.getElementById("status").innerText = "Request not found";
+          document.getElementById("status").innerText = "";
+          document.getElementById("truck").innerText = "";
+          document.getElementById("assigned_at").innerText = "";
+          document.getElementById("completed_for").innerText = "";
+          document.getElementById("location").innerText = "";
+          document.getElementById("completed_at").innerText = "";
+        } else {
+          document.getElementById("status").innerText = data.status;
+          document.getElementById("status").innerText = data.status ||"pending";
+          document.getElementById("truck").innerText = data.truck || "Not assigned";
+          document.getElementById("assigned_at").innerText = data.assigned_at || "N/A";
+          document.getElementById("completed_for").innerText = data.completed_for || "N/A";
+          document.getElementById("location").innerText = data.location || "N/A";
+          document.getElementById("completed_at").innerText = data.completed_at || "N/A";
+        }
+      } catch (error) {
+        alert("Failed to fetch status. Please try again.");
+        console.error("Fetch error:", error);
+      }
+    }
+  </script>
+  <script>
+    // Disable right-click
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  
+    // Disable F12, Ctrl+Shift+I, Ctrl+U
+    document.onkeydown = function(e) {
+      if (e.keyCode === 123) return false; // F12
+      if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) return false; // Ctrl+Shift+I/J
+      if (e.ctrlKey && e.keyCode === 85) return false; // Ctrl+U
+    };
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <style>
+    .toggle-password {
+      float: right;
+      margin-top: -35px;
+      margin-right: 10px;
+      cursor: pointer;
+      color: #007bff;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 10px;
+      color: white;
+    }
+
+    a {
+      text-decoration: none;
+      color: aliceblue;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #4caf50, #2e7d32);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .register-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 350px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      margin-top: 250px;
+      color: #2e7d32;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      background-color: #4caf50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .login-link a {
+      color: #2e7d32;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    #statusMessage {
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-container">
+  <h1>Register</h1>
+  
+  <div id="statusMessage"></div>
+
+  <form method="POST" action="register.php">
+    <label>Full Name:</label>
+    <input type="text" name="full_name" required>
+
+    <label>Email Address:</label>
+    <input type="email" name="email" required>
+
+    <label>Username:</label>
+    <input type="text" name="username" required>
+
+    <label>Password:</label>
+    <input type="password" name="password" required>
+    <span class="toggle-password" onclick="togglePass()">Show</span>
+
+    <label>Confirm Password:</label>
+    <input type="password" name="confirm_password" required>
+
+    <button type="submit">Register</button>
+    <button><a href="login.html">Login</a></button>
+  </form>
+</div>
+
+<script>
+  function togglePass() {
+    const passField = document.querySelector("input[name='password']");
+    const toggle = document.querySelector(".toggle-password");
+    if (passField.type === "password") {
+      passField.type = "text";
+      toggle.innerText = "Hide";
+    } else {
+      passField.type = "password";
+      toggle.innerText = "Show";
+    }
+  }
+
+  // Display feedback message from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const message = urlParams.get('message');
+  const status = urlParams.get('status');
+
+  if (message) {
+    const statusDiv = document.getElementById("statusMessage");
+    statusDiv.textContent = decodeURIComponent(message);
+    statusDiv.style.color = status === 'success' ? 'green' : 'red';
+    statusDiv.style.border = `1px solid ${status === 'success' ? '#2e7d32' : '#c62828'}`;
+    statusDiv.style.backgroundColor = status === 'success' ? '#e8f5e9' : '#ffebee';
+  }
+</script>
+
+</body>
+</html>

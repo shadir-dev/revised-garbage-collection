@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Waste Login</title>
+  <style>
+    body {
+      background: #f4f6f9;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .login-box h2 {
+      margin-bottom: 25px;
+    }
+
+    .login-box a {
+      display: block;
+      margin: 10px 0;
+      padding: 12px;
+      background: #158b30;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .login-box a:hover {
+      background: #0f6b24;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login as:</h2>
+    
+    <a href="login.html">User</a>
+    <a href="driver_login.html">Truck Driver</a>
+  </div><script>
+    // Disable right-click
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  
+    // Disable F12, Ctrl+Shift+I, Ctrl+U
+    document.onkeydown = function(e) {
+      if (e.keyCode === 123) return false; // F12
+      if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) return false; // Ctrl+Shift+I/J
+      if (e.ctrlKey && e.keyCode === 85) return false; // Ctrl+U
+    };
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garbage Collection Request</title>
+    <link href="request.css" rel="stylesheet">
+   
+</head>
+<body>
+
+    
+    <div class="navbar">
+        <h1>Request Garbage Collection</h1>
+        <nav>
+          
+           
+            <div>
+              <ul>
+                <li class="nav-item" ><a class="nav-link" href="user_index.php">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="request_form.html">Request Pickup</a></li>
+                <li class="nav-item"><a class="nav-link" href="view_status.html">View Status</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              </ul>
+            </div>
+        </nav>
+    </div>
+
+    
+    <div class="container">
+        <form action="submit_requet.php" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+<div class = "form-group">
+    <label for="email">Email</label>
+    <input type ="email" id="email" name="email" required>
+</div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="waste-type">Waste Type:</label>
+                <select id="waste-type" name="waste-type" required>
+                    <option value="plastic">Plastic</option>
+                    <option value="organic">Organic</option>
+                    <option value="paper">Electronic</option>
+                    <option value="metal">Metal</option>
+                    <option value="all">All</option>
+                    <!-- Add more waste types as needed -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="preferred-time">Preferred Time:</label>
+                <input type="time" id="preferred-time" name="preferred-time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact-info">Contact Info:</label>
+                <input type="text" id="contact-info" name="contact-info" required>
+            </div>
+
+            <button type="submit" onclick="this.disabled=true; this.form.submit();">Submit</button>
+
+        </form>
+    </div>
+    <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+      
+        // Disable F12, Ctrl+Shift+I, Ctrl+U
+        document.onkeydown = function(e) {
+          if (e.keyCode === 123) return false; // F12
+          if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) return false; // Ctrl+Shift+I/J
+          if (e.ctrlKey && e.keyCode === 85) return false; // Ctrl+U
+        };
+      </script>
+      
+</body>
+</html>

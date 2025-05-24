@@ -1,0 +1,71 @@
+import random
+
+def generate_normal(mean, sd):
+    # Box-Muller transform approximation using Central Limit Theorem
+    sum_vals = sum(random.random() for _ in range(12))
+    return mean + sd * (sum_vals - 6)
+
+def single_queue_simulation(run=10):
+    mean_iat = 10.0
+    sd_iat = 1.5
+    mean_st = 9.5
+    sd_st = 1.0
+
+    cat = 0.0  # Cumulative Arrival Time
+    se = 0.0   # Service End Time
+    cwt = 0.0  # Cumulative Waiting Time
+    cit = 0.0  # Cumulative Idle Time
+
+    # Print header with proper column width for alignment
+    print(f"{'i':<3}{'IAT':<10}{'CAT':<10}{'SB':<10}{'ST':<10}{'SE':<10}{'WT':<10}{'IT':<10}")
+
+    for j in range(1, run + 1):
+        iat = generate_normal(mean_iat, sd_iat)
+        cat += iat
+
+        if cat <= se:
+            sb = se
+            wt = se - cat
+            cwt += wt
+            it = 0.0
+        else:
+            sb = cat
+            wt = 0.0
+            it = sb - se
+            cit += it
+
+        st = generate_normal(mean_st, sd_st)
+        se = sb + st
+
+        # Print each line of the table with consistent column width
+        print(f"{j:<3}{iat:<10.3f}{cat:<10.3f}{sb:<10.3f}{st:<10.3f}{se:<10.3f}{wt:<10.3f}{it:<10.3f}")
+
+    # Calculate average waiting time and percentage capacity utilization
+    awt = cwt / run
+    pcu = ((cat - cit) * 100) / cat
+
+    # Print final results
+    print(f"\n{'Average Waiting Time:':<20}{awt:.3f}")
+    print(f"{'Percentage Capacity Utilization:':<20}{pcu:.2f}%")
+
+# Run the simulation
+single_queue_simulation()
+
+
+
+
+
+i  IAT       CAT       SB        ST        SE        WT        IT        
+1  10.682    10.682    10.682    10.626    21.308    0.000     10.682    
+2  7.853     18.536    21.308    9.441     30.749    2.772     0.000     
+3  8.789     27.325    30.749    9.989     40.738    3.424     0.000     
+4  10.001    37.326    40.738    9.162     49.900    3.412     0.000     
+5  14.416    51.742    51.742    8.954     60.696    0.000     1.842     
+6  8.278     60.020    60.696    9.209     69.906    0.676     0.000     
+7  10.298    70.318    70.318    11.993    82.311    0.000     0.412     
+8  12.760    83.077    83.077    10.165    93.243    0.000     0.766     
+9  10.667    93.745    93.745    8.947     102.692   0.000     0.502     
+10 10.588    104.333   104.333   10.071    114.403   0.000     1.641     
+
+Average Waiting Time:1.028
+Percentage Capacity Utilization:84.81%
